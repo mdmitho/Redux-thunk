@@ -1,8 +1,10 @@
 import { composeWithDevTools } from "@redux-devtools/extension";
-import {createStore} from "redux"
+import {applyMiddleware, createStore} from "redux"
+import logger from "redux-logger";
+import cartCounter from "./middleWares/cartCounter";
 import rootReducer from "./productActions/rootReducer";
 
 
-const  store = createStore(rootReducer,composeWithDevTools())//google search using redux devtool
+const  store = createStore(rootReducer,composeWithDevTools(applyMiddleware(cartCounter)))//google search redux logger
 
 export default store;
