@@ -9,7 +9,7 @@ export const Home = () => {
  const [products, setProducts] = useState([])
 const filters = useSelector((state)=> state.filter.filters)
 const {brands, stock} = filters
-console.log(filters)
+// console.log(products)
  const dispatch = useDispatch()
 
 useEffect(()=>{
@@ -22,7 +22,36 @@ const state = useSelector((state)=>state)
 // console.log(state)
 
 
-const activeClass = "text-white  bg-indigo-500 border-white";
+const activeClass = "text-white  bg-accent border-white";
+
+
+let content;
+
+if(products.length){
+ content = products.map((product)=>(
+    <ProductsCard key={product._id} product={product}/>
+  ))
+}
+if(products.length && (stock || brands.length)){
+ content = products
+ .filter((product)=>{
+  if(stock){
+    return  product.status === true;
+  }
+  return product
+ })
+ .filter((product)=>{
+
+  if(brands.length){
+    return brands.includes(product.brand);
+  }
+  return product
+ })
+ .map((product)=>(
+    <ProductsCard key={product._id} product={product}/>
+  ))
+}
+
 
   return (
     <>
@@ -45,16 +74,9 @@ const activeClass = "text-white  bg-indigo-500 border-white";
         <button onClick={ () => dispatch(toggleBrand("Galaxy"))} className={`border px-3 py-2 rounded-full font-semibold ${brands.includes("Galaxy") ? activeClass : null}`}>
       Galaxy
         </button>
-        <button onClick={ () => dispatch(toggleBrand("2023"))} className={`border px-3 py-2 rounded-full font-semibold ${brands.includes("2023") ? activeClass : null}`}>
-      2023 Model car
-        </button>
       </div>
       <div className="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 m-5 justify-center">
-      {
-  products.map((product)=>(
-    <ProductsCard key={product._id} product={product}/>
-  ))
-}
+      {content}
       </div>
     </div>
 
