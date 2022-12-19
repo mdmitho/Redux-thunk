@@ -1,13 +1,15 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Outlet } from "react-router-dom";
-import { toggleBrand } from "../../redux/actionTypes/filterAction";
+import { toggleBrand, toggleStock } from "../../redux/actionTypes/filterAction";
 import Navbar from "./Navbar";
 import { ProductsCard } from "./ProductsCard";
 
 export const Home = () => {
  const [products, setProducts] = useState([])
-
+const filters = useSelector((state)=> state.filter.filters)
+const {brands, stock} = filters
+console.log(filters)
  const dispatch = useDispatch()
 
 useEffect(()=>{
@@ -17,9 +19,11 @@ useEffect(()=>{
 },[])
 
 const state = useSelector((state)=>state)
+// console.log(state)
+
 
 const activeClass = "text-white  bg-indigo-500 border-white";
-// console.log(state)
+
   return (
     <>
       <Navbar />
@@ -30,15 +34,19 @@ const activeClass = "text-white  bg-indigo-500 border-white";
       <div className='max-w-7xl gap-14 mx-auto my-10'>
       <div className='mb-10 flex justify-end gap-5'>
         <button
-          className={`border px-3 py-2 rounded-full font-semibold ${activeClass} `}
+        onClick={ () => dispatch(toggleStock())}
+          className={`border px-3 py-2 rounded-full font-semibold ${stock ? activeClass : null} `}
         >
           In Stock
         </button>
-        <button onClick={ () => dispatch(toggleBrand("Honda"))} className={`border px-3 py-2 rounded-full font-semibold`}>
+        <button onClick={ () => dispatch(toggleBrand("Honda"))} className={`border px-3 py-2 rounded-full font-semibold ${brands.includes("Honda") ? activeClass : null}`}>
          Honda
         </button>
-        <button onClick={ () => dispatch(toggleBrand("Galaxy"))} className={`border px-3 py-2 rounded-full font-semibold`}>
+        <button onClick={ () => dispatch(toggleBrand("Galaxy"))} className={`border px-3 py-2 rounded-full font-semibold ${brands.includes("Galaxy") ? activeClass : null}`}>
       Galaxy
+        </button>
+        <button onClick={ () => dispatch(toggleBrand("2023"))} className={`border px-3 py-2 rounded-full font-semibold ${brands.includes("2023") ? activeClass : null}`}>
+      2023 Model car
         </button>
       </div>
       <div className="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 m-5 justify-center">
