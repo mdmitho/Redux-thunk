@@ -2,20 +2,21 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Outlet } from "react-router-dom";
 import { toggleBrand, toggleStock } from "../../redux/actionTypes/filterAction";
+import { loadProduct } from "../../redux/productActions/productActions";
+import loadProductData from "../../redux/thunk/product/fetchProduct";
 import Navbar from "./Navbar";
 import { ProductsCard } from "./ProductsCard";
 
 export const Home = () => {
- const [products, setProducts] = useState([])
+ 
 const filters = useSelector((state)=> state.filter.filters)
+const products = useSelector((state)=> state.product.products)
 const {brands, stock} = filters
 // console.log(products)
  const dispatch = useDispatch()
 
 useEffect(()=>{
-  fetch("http://localhost:5000/products")
-  .then((res)=> res.json())
-  .then(data=> setProducts(data))
+  dispatch(loadProductData())
 },[])
 
 const state = useSelector((state)=>state)
@@ -27,12 +28,12 @@ const activeClass = "text-white  bg-accent border-white";
 
 let content;
 
-if(products.length){
+if(products){
  content = products.map((product)=>(
     <ProductsCard key={product._id} product={product}/>
   ))
 }
-if(products.length && (stock || brands.length)){
+if(products && (stock || brands)){
  content = products
  .filter((product)=>{
   if(stock){
