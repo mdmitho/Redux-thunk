@@ -2,6 +2,7 @@ import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import logger from 'redux-logger'
 import { loadProduct } from '../../../redux/productActions/productActions';
+import deleteProduct from '../../../redux/thunk/product/deletedProduct';
 import loadProductData from "../../../redux/thunk/product/fetchProduct";
 
 
@@ -49,7 +50,7 @@ export const ProductList = () => {
             </thead>
 
             <tbody class='text-sm divide-y divide-gray-100'>
-              {products.map(({ name, status, price, brand,rating,id,quantity }) => (
+              {products.map(({ name, status, price, brand,_id,rating,id,quantity }) => (
                 <tr>
                   <td class='p-2'>
                     <input type='checkbox' class='w-5 h-5' value='id-1' />
@@ -76,8 +77,8 @@ export const ProductList = () => {
                   </td>
                   <td class='p-2'>
                     <div class='flex justify-center'>
-                      <button >
-                      {/* onClick={() => dispatch(deleteProduct(_id))} */}
+                      <button onClick={() => dispatch(deleteProduct(_id))}>
+                      
                         <svg
                           class='w-8 h-8 hover:text-blue-600 rounded-full hover:bg-gray-100 p-1'
                           fill='none'
