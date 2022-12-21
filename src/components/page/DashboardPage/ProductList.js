@@ -1,6 +1,22 @@
-import React from 'react'
+import React, { useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import logger from 'redux-logger'
+import { loadProduct } from '../../../redux/productActions/productActions';
+import loadProductData from "../../../redux/thunk/product/fetchProduct";
+
 
 export const ProductList = () => {
+  const products = useSelector((state)=> state.product.products)
+
+  // console.log(products)
+
+  const dispatch = useDispatch()
+
+  useEffect(()=>{
+    dispatch(loadProductData())
+  },[])
+
+
   return (
     <>
      <div class='flex flex-col justify-center items-center h-full w-full '>
@@ -33,35 +49,35 @@ export const ProductList = () => {
             </thead>
 
             <tbody class='text-sm divide-y divide-gray-100'>
-              {/* {products.map(({ model, brand, price, status, _id }) => ( */}
+              {products.map(({ name, status, price, brand,rating,id,quantity }) => (
                 <tr>
                   <td class='p-2'>
                     <input type='checkbox' class='w-5 h-5' value='id-1' />
                   </td>
                   <td class='p-2'>
-                    <div class='font-medium text-gray-800'>Model</div>
+                    <div class='font-medium text-gray-800'>{name}</div>
                   </td>
                   <td class='p-2'>
-                    <div class='text-left capitalize'>Brand</div>
+                    <div class='text-left capitalize'>{brand}</div>
                   </td>
                   <td class='p-2'>
                     <div class='text-left'>
-                      hello
-                      {/* {status ? (
+                      {status ? (
                         <p className='text-green-500 font-medium'>Available</p>
                       ) : (
                         <p className='text-red-500 font-medium'>Stock out</p>
-                      )} */}
+                      )}
                     </div>
                   </td>
                   <td class='p-2'>
                     <div class='text-left font-medium text-indigo-500'>
-                      price
+                      $ {price}
                     </div>
                   </td>
                   <td class='p-2'>
                     <div class='flex justify-center'>
                       <button >
+                      {/* onClick={() => dispatch(deleteProduct(_id))} */}
                         <svg
                           class='w-8 h-8 hover:text-blue-600 rounded-full hover:bg-gray-100 p-1'
                           fill='none'
@@ -80,7 +96,7 @@ export const ProductList = () => {
                     </div>
                   </td>
                 </tr>
-              {/* ))} */}
+              ))}
             </tbody>
           </table>
         </div>

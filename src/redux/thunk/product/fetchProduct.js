@@ -4,7 +4,7 @@ const loadProductData =()=>{
     return async (dispatch, getState)=>{
         const res = await fetch("http://localhost:5000/products");
         const data = await res.json()
-console.log(data)
+console.log(data.length)
         if(data.length){
             dispatch(loadProduct(data))
         }

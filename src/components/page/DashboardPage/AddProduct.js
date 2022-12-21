@@ -1,11 +1,29 @@
 import React from 'react'
 import { useForm } from "react-hook-form";
+// import { useSelector } from 'react-redux';
+
+
 
 export const AddProduct = () => {
   const { register, handleSubmit } = useForm();
+//  const dispatch = useSelector()
 
   const submit = (data) => {
-
+    const product = {
+      name: data.name,
+      brand: data.brand,
+      status: data.status === "true" ? true : false,
+      price: data.price,
+      keyFeature: [
+        data.keyFeature1,
+        data.keyFeature2,
+        data.keyFeature3,
+        data.keyFeature4,
+      ],
+      spec: [],
+    };
+    console.log(product);
+    // dispatch(addProductData(product));
   };
 
 
@@ -16,10 +34,10 @@ export const AddProduct = () => {
         onSubmit={handleSubmit(submit)}
       >
         <div className='flex flex-col w-full max-w-xs'>
-          <label className='mb-2' htmlFor='model'>
-            Model
+          <label className='mb-2' htmlFor='name'>
+            Name
           </label>
-          <input type='text' id='model' {...register("model")} />
+          <input type='text' id='model' {...register("name")} />
         </div>
         <div className='flex flex-col w-full max-w-xs'>
           <label className='mb-2' htmlFor='image'>
@@ -33,8 +51,8 @@ export const AddProduct = () => {
             Brand
           </label>
           <select name='brand' id='brand' {...register("brand")}>
-            <option value='amd'>AMD</option>
-            <option value='intel'>Galaxy</option>
+            <option value='Honda'>Honda</option>
+            <option value='Galaxy'>Galaxy</option>
           </select>
         </div>
         <div className='flex flex-col w-full max-w-xs'>
