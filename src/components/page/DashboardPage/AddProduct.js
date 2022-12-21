@@ -1,17 +1,20 @@
 import React from 'react'
 import { useForm } from "react-hook-form";
-// import { useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
+
+import addProductData from '../../../redux/thunk/product/addProductData';
 
 
 
 export const AddProduct = () => {
   const { register, handleSubmit } = useForm();
-//  const dispatch = useSelector()
+ const dispatch = useDispatch();
 
   const submit = (data) => {
     const product = {
       name: data.name,
       brand: data.brand,
+      img: data.image,
       status: data.status === "true" ? true : false,
       price: data.price,
       keyFeature: [
@@ -23,7 +26,7 @@ export const AddProduct = () => {
       spec: [],
     };
     console.log(product);
-    // dispatch(addProductData(product));
+    dispatch(addProductData(product));
   };
 
 
@@ -57,7 +60,7 @@ export const AddProduct = () => {
         </div>
         <div className='flex flex-col w-full max-w-xs'>
           <label className='mb-2' htmlFor='price'>
-            Image
+            Price
           </label>
           <input type='text' name='price' id='price' {...register("price")} />
         </div>
